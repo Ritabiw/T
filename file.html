@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player com Video.js</title>
+
+    <!-- 1. Incluindo os arquivos CSS e JS do Video.js -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #000; /* Fundo preto para preencher qualquer espaço */
+            overflow: hidden; /* Esconde as barras de rolagem */
+        }
+        /* Faz o player ocupar toda a tela */
+        #my-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw; /* 100% da largura da viewport */
+            height: 100vh; /* 100% da altura da viewport */
+            object-fit: cover; /* Preenche a tela mantendo a proporção, sem distorcer */
+        }
+        /* Camada de sobreposição para a seleção de canais */
+        #start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 101;
+            color: white;
+            text-align: center;
+            cursor: pointer; /* Adiciona um cursor de ponteiro para indicar que é clicável */
+        }
+        #start-overlay h2 {
+            color: white;
+            font-size: 2em;
+        }
+        #start-overlay p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        /* Feedback visual para troca de canal */
+        #channel-indicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 2.5em;
+            font-weight: bold;
+            z-index: 102;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- O player agora é o único elemento no body -->
+    <!-- Removido 'autoplay' e 'muted'. Adicionado 'poster' para uma imagem de capa. -->
+    <video id="my-video" class="video-js" playsinline preload="auto" data-setup='{"controls": false}' poster="https://via.placeholder.com/1920x1080/000000/000000?text=.">
+        <source src="http://granpirosh.top/live/841866657/c581b7318b/289881.m3u8" type="application/x-mpegURL">
+        <p class="vjs-no-js">
+            Para assistir a este vídeo, por favor, habilite o JavaScript.
+        </p>
+    </video>
+
+    <!-- Camada de sobreposição para a seleção de canais -->
+    <div id="start-overlay">
+        <h2>Player de TV</h2>
+        <p>Use as teclas numéricas (1, 2, 3...) ou as setas para trocar de canal.</p>
+    </div>
+
+    <!-- Elemento para mostrar o canal selecionado -->
+    <div id="channel-indicator"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const player = videojs('my-video', {
+                // Opções do Video.js aqui, se necessário
+            });
+
+            const startOverlay = document.getElementById('start-overlay');
+            const channelIndicator = document.getElementById('channel-indicator');
+
+            let currentChannelIndex = -1; // -1 significa que nenhum canal está tocando
+            let indicatorTimeout;
+
+            // 1. Defina sua lista de canais aqui.
+            const channels = [
+                { name: "Record", url: "http://granpirosh.top/live/841866657/c581b7318b/244071.m3u8" },
+                { name: "SBT", url: "http://granpirosh.top/live/841866657/c581b7318b/244161.m3u8" },
+                { name: "Band", url: "http://granpirosh.top/live/841866657/c581b7318b/255465.m3u8" },
+                // Adicione mais canais aqui, se desejar.
+                // { name: "Outro Canal", url: "URL_AQUI.m3u8" },
+            ];
+
+            // Função para exibir o indicador de canal
+            const showChannelIndicator = (channelName) => {
+                channelIndicator.textContent = channelName;
+                channelIndicator.style.opacity = '1';
+
+                // Esconde o indicador após 2 segundos
+                clearTimeout(indicatorTimeout);
+                indicatorTimeout = setTimeout(() => {
+                    channelIndicator.style.opacity = '0';
+                }, 2000);
+            };
+
+            // 2. Função unificada para tocar um canal
+            const playChannel = (channelIndex) => {
+                // Verifica se o índice do canal é válido
+                if (channelIndex < 0 || channelIndex >= channels.length) {
+                    console.warn(`Canal ${channelIndex + 1} não existe.`);
+                    return;
+                }
+
+                currentChannelIndex = channelIndex;
+                const channel = channels[channelIndex];
+
+                // Define a nova fonte no player
+                player.src({
+                    src: channel.url,
+                    type: 'application/x-mpegURL'
+                });
+                player.play(); // Inicia o vídeo com som
+
+                // Esconde a tela de seleção, se estiver visível
+                if (startOverlay.style.display !== 'none') {
+                    startOverlay.style.display = 'none';
+                }
+
+                showChannelIndicator(channel.name);
+            };
+
+            // 3. Adiciona o listener para o clique inicial na tela
+            startOverlay.addEventListener('click', () => {
+                // Inicia o primeiro canal da lista
+                playChannel(0);
+            });
+
+            // 4. Adiciona o listener para o teclado
+            document.addEventListener('keydown', (event) => {
+                const key = event.key;
+
+                if (key >= '1' && key <= '9') {
+                    const channelIndex = parseInt(key) - 1;
+                    playChannel(channelIndex);
+                } else if (key === 'ArrowUp') {
+                    const nextIndex = (currentChannelIndex + 1) % channels.length;
+                    playChannel(nextIndex);
+                } else if (key === 'ArrowDown') {
+                    const prevIndex = (currentChannelIndex - 1 + channels.length) % channels.length;
+                    playChannel(prevIndex);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
