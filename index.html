@@ -113,33 +113,36 @@
             let currentChannelIndex = -1;
             let indicatorTimeout;
 
-            // 1. Função para carregar e interpretar a playlist M3U8
-            async function loadPlaylist() {
+            // 1. Conteúdo da playlist M3U8 embutido no código
+            const m3u8Data = `
+#EXTM3U
+#EXTINF:-1 tvg-logo="https://i.imgur.com/1g3i6g8.png",Record
+http://granpirosh.top/live/841866657/c581b7318b/244071.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/c23t5yv.png",SBT
+http://granpirosh.top/live/841866657/c581b7318b/244161.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/s8Lp3m6.png",Band
+http://granpirosh.top/live/841866657/c581b7318b/255465.m3u8
+`;
+
+            // 2. Função para interpretar a playlist M3U8 a partir da variável
+            function loadPlaylist() {
                 try {
-                    const response = await fetch('playlist.m3u8');
-                    if (!response.ok) {
-                        throw new Error('Não foi possível carregar a playlist. Verifique se o arquivo está em "playlist.m3u8" e se você está usando um servidor local.');
-                    }
-                    const data = await response.text();
-                    const lines = data.split('\n');
+                    const lines = m3u8Data.trim().split('\n');
                     const loadedChannels = [];
 
                     for (let i = 0; i < lines.length; i++) {
                         if (lines[i].startsWith('#EXTINF:')) {
-                            // Extrai o logo usando uma expressão regular
                             const logoMatch = lines[i].match(/tvg-logo="([^"]*)"/);
                             const logo = logoMatch ? logoMatch[1] : '';
                             const name = lines[i].split(',')[1]?.trim();
                             const url = lines[i + 1]?.trim();
-                            if (name && url) {
-                                loadedChannels.push({ name, url, logo });
-                            }
+                            if (name && url) loadedChannels.push({ name, url, logo });
                         }
                     }
                     channels = loadedChannels;
                 } catch (error) {
                     console.error(error);
-                    startOverlay.innerHTML = `<h2>Erro</h2><p>${error.message}</p>`;
+                    startOverlay.innerHTML = `<h2>Erro</h2><p>Ocorreu um erro ao processar a lista de canais.</p>`;
                 }
             }
 
@@ -164,16 +167,14 @@
                 // Salva o índice do canal atual no localStorage
                 localStorage.setItem('lastChannelIndex', currentChannelIndex);
 
+                startOverlay.style.display = 'none'; // Esconde o overlay sempre que um canal for tocado
                 player.src({ src: channel.url, type: 'application/x-mpegURL' });
                 player.play();
-                if (startOverlay.style.display !== 'none') {
-                    startOverlay.style.display = 'none';
-                }
                 showChannelIndicator(channel);
             };
 
             // Carrega a playlist ao iniciar
-            await loadPlaylist();
+            loadPlaylist();
 
             startOverlay.addEventListener('click', () => {
                 // Verifica se há um canal salvo e inicia a partir dele, senão, começa do primeiro.
@@ -195,4 +196,3 @@
 
 </body>
 </html>
-
