@@ -599,6 +599,7 @@ body.dark-mode .vocab-icon {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative;
 }
 
 .quiz-audio-container {
@@ -683,4 +684,36 @@ body.dark-mode .quiz-option:hover:not(:disabled) {
     color: var(--primary-color);
     margin-bottom: 10px;
     font-size: 1.1em;
+}
+
+/* --- Responsividade para Dispositivos Móveis (Celular/Tablet) --- */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    /* Transforma as opções do quiz em uma coluna única para melhor toque */
+    .quiz-options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Ajusta o grid de áudio para não quebrar o layout */
+    .audio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    /* Botões maiores para facilitar o toque */
+    .nav-btn {
+        padding: 12px 20px;
+        font-size: 0.95em;
+    }
 }
