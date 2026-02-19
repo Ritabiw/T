@@ -112,6 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const letsListenIntroBtn = document.getElementById('lets-listen-intro-btn');
     const container = document.querySelector('.container');
 
+    // Elementos do Video Quiz (Definidos aqui para acesso global no script)
+    const videoPlayer = document.getElementById('video-quiz-player');
+
     if (nextBtn && step1 && step2) {
         nextBtn.addEventListener('click', () => {
             // Se estiver no Passo 1 (Greetings), vai para o Passo 2 (Introdução)
@@ -221,8 +224,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (prevBtn && step1 && step2) {
         prevBtn.addEventListener('click', () => {
+            // Para qualquer áudio tocando ao voltar (reset geral de áudio)
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                const oldBar = document.querySelector('.audio-progress-bar');
+                if (oldBar) oldBar.remove();
+                document.querySelectorAll('.text-highlight').forEach(el => el.classList.remove('text-highlight'));
+                currentAudio = null;
+            }
+
             // Se estiver no Step Listening, volta para o Step Talk
             if (stepListening && !stepListening.classList.contains('hidden')) {
+                // Reseta o estado do Quiz (Vídeo, Pontuação, Perguntas)
+                if (videoPlayer) {
+                    videoPlayer.pause();
+                    videoPlayer.currentTime = 0;
+                }
+                currentQuizData = part1Data;
+                currentVideoQuizIndex = 0;
+                score = 0;
+                questionShown = false;
+                currentSceneStartTime = 0;
+                loadVideoQuestion(0);
+
                 stepListening.classList.add('hidden');
                 stepTalk.classList.remove('hidden');
                 if (nextBtn) nextBtn.style.display = 'inline-block';
@@ -424,7 +449,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let questionShown = false; // Controle para pausar apenas uma vez por pergunta
     let currentSceneStartTime = 0; // Armazena o tempo de início da cena atual
 
-    const videoPlayer = document.getElementById('video-quiz-player');
     const videoSource = document.getElementById('video-quiz-source');
     const questionTitle = document.getElementById('video-quiz-question');
     const optionsContainer = document.getElementById('video-quiz-options');
@@ -574,8 +598,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Se não for a primeira pergunta, tenta tocar automaticamente
                 if (index > 0) videoPlayer.play().catch(() => {});
             } else {
-                // Se for o mesmo vídeo, continua tocando
-                videoPlayer.play().catch(() => {});
+                // Se for o mesmo vídeo
+                if (index > 0) {
+                    videoPlayer.play().catch(() => {});
+                } else {
+                    // Se for a primeira (reset), garante que para
+                    videoPlayer.pause();
+                    videoPlayer.currentTime = 0;
+                }
             }
         }
 
