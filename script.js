@@ -517,12 +517,12 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             video: "Listening and choose/Interpretação greetins.mp4",
             stopTime: 85, // Pausa para a 4ª pergunta (final)
-            question: "4. How is about the Lion?",
+            question: "4. Why the Lion is crying?",
             options: [
-                { text: "He was sad", correct: false },
-                { text: "He was happy", correct: false },
+                { text: "He has fear of the rabbit", correct: true },
+                { text: "He was not happy", correct: false },
                 { text: "He was boried", correct: false },
-                { text: "He was good", correct: true }
+                { text: "He is good", correct: false }
             ]
         }
     ];
