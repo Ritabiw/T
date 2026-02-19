@@ -19,12 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleVocabBtn.addEventListener('click', () => {
             // Alterna a classe 'hidden' para mostrar/ocultar
             vocabContent.classList.toggle('hidden');
+            const letsTalkBtn = document.getElementById('lets-talk-btn');
             
             // Atualiza o texto do botão conforme o estado
             if (vocabContent.classList.contains('hidden')) {
                 toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
+                if (letsTalkBtn) letsTalkBtn.classList.remove('hidden');
             } else {
                 toggleVocabBtn.textContent = '📖 Fechar Vocabulário';
+                if (letsTalkBtn) letsTalkBtn.classList.add('hidden');
                 
                 // Adiciona delay escalonado para animação de entrada
                 const items = vocabContent.querySelectorAll('.audio-item');
@@ -57,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (prevBtn) prevBtn.classList.remove('disabled');
 
             if (container) container.classList.add('transparent');
+            document.body.classList.add('white-bg');
         });
     }
     
@@ -83,6 +87,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Lógica do botão de voltar para Introdução (Seta no Step Talk)
+    const backToIntroBtn = document.getElementById('back-to-intro-btn');
+    if (backToIntroBtn && stepTalk && step2) {
+        backToIntroBtn.addEventListener('click', () => {
+            stepTalk.classList.add('hidden');
+            step2.classList.remove('hidden');
+            
+            // Restaura o botão "Próximo" na navegação inferior
+            if (nextBtn) nextBtn.style.display = 'inline-block';
+        });
+    }
+
     if (prevBtn && step1 && step2) {
         prevBtn.addEventListener('click', () => {
             // Se estiver no Step Talk, volta para o Step 2
@@ -95,6 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Se estiver no Step 2, volta para o Step 1
             if (!step2.classList.contains('hidden')) {
+                // Se o vocabulário estiver aberto, fecha ele e permanece na Introdução
+                if (vocabContent && !vocabContent.classList.contains('hidden')) {
+                    vocabContent.classList.add('hidden');
+                    const letsTalkBtn = document.getElementById('lets-talk-btn');
+                    if (letsTalkBtn) letsTalkBtn.classList.remove('hidden');
+                    if (toggleVocabBtn) {
+                        toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
+                    }
+                    return;
+                }
+
                 step2.classList.add('hidden');
                 step1.classList.remove('hidden');
                 
@@ -102,14 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (nextBtn) nextBtn.classList.remove('disabled');
     
                 if (container) container.classList.remove('transparent');
-
-                // Fecha o vocabulário automaticamente ao sair da seção (voltar)
-                if (vocabContent && !vocabContent.classList.contains('hidden')) {
-                    vocabContent.classList.add('hidden');
-                    if (toggleVocabBtn) {
-                        toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
-                    }
-                }
+                document.body.classList.remove('white-bg');
             }
         });
     }

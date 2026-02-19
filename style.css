@@ -12,7 +12,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #8ec5fc; /* Fundo único (azul suave) para o modo claro */
+    background: #ccaf97; /* Fundo bege para o modo claro */
     color: var(--text-color);
     margin: 0;
     padding: 20px;
@@ -154,6 +154,10 @@ h3 {
 /* Classes necessárias para o JavaScript funcionar */
 .hidden {
     display: none !important;
+}
+
+body.white-bg:not(.dark-mode) {
+    background: #f5f5dc; /* Fundo bege */
 }
 
 body.dark-mode {
@@ -464,4 +468,24 @@ body.dark-mode .vocab-icon {
 
 .play-mini-btn:hover {
     transform: scale(1.1);
+}
+
+/* Botão de Voltar (Seta) */
+.back-arrow {
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 0;
+    transition: transform 0.2s;
+}
+
+.back-arrow:hover {
+    transform: translateX(-5px);
 }
