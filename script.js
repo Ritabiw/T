@@ -25,6 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
             } else {
                 toggleVocabBtn.textContent = '📖 Fechar Vocabulário';
+                
+                // Adiciona delay escalonado para animação de entrada
+                const items = vocabContent.querySelectorAll('.audio-item');
+                items.forEach((item, index) => {
+                    item.style.animationDelay = `${index * 0.05}s`;
+                    // Reinicia a animação removendo e readicionando a propriedade
+                    item.style.animationName = 'none';
+                    item.offsetHeight; /* trigger reflow */
+                    item.style.animationName = 'popIn';
+                });
             }
         });
     }
@@ -34,6 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prev-btn');
     const step1 = document.getElementById('step-1');
     const step2 = document.getElementById('step-2');
+    const stepTalk = document.getElementById('step-talk');
+    const letsTalkBtn = document.getElementById('lets-talk-btn');
     const container = document.querySelector('.container');
 
     if (nextBtn && step1 && step2) {
@@ -47,24 +59,76 @@ document.addEventListener('DOMContentLoaded', () => {
             if (container) container.classList.add('transparent');
         });
     }
+    
+    // Lógica para destacar o item de vocabulário clicado (Borda Verde)
+    const audioItems = document.querySelectorAll('.audio-item');
+    audioItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Remove a classe 'selected-card' de todos os itens para limpar a seleção anterior
+            audioItems.forEach(i => i.classList.remove('selected-card'));
+            // Adiciona a classe ao item que foi clicado agora
+            item.classList.add('selected-card');
+        });
+    });
+
+    // Lógica do botão Let's Talk
+    if (letsTalkBtn && stepTalk) {
+        letsTalkBtn.addEventListener('click', () => {
+            step2.classList.add('hidden');
+            stepTalk.classList.remove('hidden');
+            
+            // Esconde o botão Próximo (pois é o fim) e habilita o Anterior
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (prevBtn) prevBtn.classList.remove('disabled');
+        });
+    }
 
     if (prevBtn && step1 && step2) {
         prevBtn.addEventListener('click', () => {
-            step2.classList.add('hidden');
-            step1.classList.remove('hidden');
-            
-            prevBtn.classList.add('disabled');
-            if (nextBtn) nextBtn.classList.remove('disabled');
+            // Se estiver no Step Talk, volta para o Step 2
+            if (stepTalk && !stepTalk.classList.contains('hidden')) {
+                stepTalk.classList.add('hidden');
+                step2.classList.remove('hidden');
+                if (nextBtn) nextBtn.style.display = 'inline-block'; // Mostra o botão Próximo de volta
+                return;
+            }
 
-            if (container) container.classList.remove('transparent');
+            // Se estiver no Step 2, volta para o Step 1
+            if (!step2.classList.contains('hidden')) {
+                step2.classList.add('hidden');
+                step1.classList.remove('hidden');
+                
+                prevBtn.classList.add('disabled');
+                if (nextBtn) nextBtn.classList.remove('disabled');
+    
+                if (container) container.classList.remove('transparent');
 
-            // Fecha o vocabulário automaticamente ao sair da seção (voltar)
-            if (vocabContent && !vocabContent.classList.contains('hidden')) {
-                vocabContent.classList.add('hidden');
-                if (toggleVocabBtn) {
-                    toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
+                // Fecha o vocabulário automaticamente ao sair da seção (voltar)
+                if (vocabContent && !vocabContent.classList.contains('hidden')) {
+                    vocabContent.classList.add('hidden');
+                    if (toggleVocabBtn) {
+                        toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
+                    }
                 }
             }
         });
     }
+
+    // --- Lógica para Tocar Áudios ---
+    // Seleciona todos os botões de áudio (tanto do vocabulário quanto do chat)
+    const allAudioButtons = document.querySelectorAll('.play-btn, .play-mini-btn');
+    
+    allAudioButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede que o clique selecione o card (se estiver no vocabulário)
+            
+            const audioPath = btn.getAttribute('data-audio');
+            if (audioPath) {
+                const audio = new Audio(audioPath);
+                audio.play().catch(error => console.error("Erro ao reproduzir áudio:", error));
+            } else {
+                console.log('Nenhum caminho de áudio definido para este botão.');
+            }
+        });
+    });
 });
