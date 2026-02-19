@@ -936,16 +936,22 @@ document.addEventListener('DOMContentLoaded', () => {
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
+        let isRecognizing = false; // Flag para controlar o estado
+
         const micButtons = document.querySelectorAll('.mic-btn');
 
         micButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation(); // Evita clicar no balão
                 
-                // Se já estiver ouvindo, para
-                if (btn.classList.contains('listening')) {
+                // Se já estiver ouvindo, para tudo antes de começar ou parar
+                if (isRecognizing) {
                     recognition.stop();
-                    return;
+                    isRecognizing = false;
+                    // Se clicou no mesmo botão que estava ouvindo, apenas para e sai
+                    if (btn.classList.contains('listening')) {
+                        return;
+                    }
                 }
 
                 const targetText = btn.getAttribute('data-text').toLowerCase();
@@ -965,6 +971,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Ativa visual do botão
                 btn.classList.add('listening');
 
+                isRecognizing = true;
                 recognition.start();
 
                 recognition.onresult = (event) => {
@@ -985,16 +992,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     btn.classList.remove('listening');
+                    isRecognizing = false;
                 };
 
                 recognition.onerror = (event) => {
-                    feedback.textContent = "Erro no microfone ou permissão negada.";
-                    feedback.style.color = "#ef4444";
+                    // Ignora erro de "aborted" se pararmos manualmente
+                    if (event.error !== 'aborted') {
+                        feedback.textContent = "Erro/Silêncio.";
+                        feedback.style.color = "#ef4444";
+                    }
                     btn.classList.remove('listening');
+                    isRecognizing = false;
                 };
 
                 recognition.onend = () => {
                     btn.classList.remove('listening');
+                    isRecognizing = false;
                 };
             });
         });
