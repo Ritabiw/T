@@ -256,14 +256,22 @@
                 <p>Assista ao vídeo e responda às perguntas abaixo:</p>
 
                 <div class="video-container">
-                    <video id="video-quiz-player" controls>
+                    <!-- Controls removido para impedir avanço manual. pointer-events: none impede clique direito/pausa -->
+                    <video id="video-quiz-player" style="pointer-events: none;">
                         <source id="video-quiz-source" src="" type="video/mp4">
                         Seu navegador não suporta a reprodução de vídeos.
                     </video>
+                    <!-- Botão de Play Personalizado (Overlay) -->
+                    <div id="video-start-overlay" class="video-overlay">
+                        <button class="big-play-btn">▶</button>
+                    </div>
                 </div>
 
                 <div class="quiz-card">
-                    <div id="video-quiz-score" class="quiz-score">Acertos: 0/0</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div id="video-quiz-score" class="quiz-score" style="margin-bottom: 0;">Acertos: 0/0</div>
+                        <button id="skip-to-part2-btn" style="background: none; border: none; color: #6C63FF; cursor: pointer; text-decoration: underline; font-size: 0.85em; padding: 0;">Pular para Interpretação ⏩</button>
+                    </div>
                     <h3 id="video-quiz-question">Carregando pergunta...</h3>
                     <div id="video-quiz-options" class="quiz-options-grid">
                         <!-- Opções serão inseridas via JavaScript -->

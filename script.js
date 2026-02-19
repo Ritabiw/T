@@ -313,32 +313,117 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Lógica do Quiz de Vídeo (Step 4 - Listening) ---
-    const videoQuizData = [
+    const part1Data = [
         {
-            video: "Imagens de Greetins/Design sem nome.mp4",
-            question: "1. Qual cumprimento foi usado no vídeo?",
+            video: "Listening and choose/videoplayback.mp4",
+            stopTime: 6.5, // Pausa aos 5 segundos
+            question: "1. Qual cumprimento foi o primeiro usado no vídeo?",
             options: [
                 { text: "Good Night", correct: false },
-                { text: "Hello / Hi", correct: true },
+                { text: "Hello / Hi", correct: false },
                 { text: "Goodbye", correct: false },
-                { text: "See you later", correct: false }
+                { text: "Good Morning", correct: true }
             ]
         },
         {
-            video: "Imagens de Greetins/Design sem nome.mp4", // Substitua pelo vídeo da pergunta 2
-            question: "2. Como a pessoa respondeu?",
+            video: "Listening and choose/videoplayback.mp4",
+            stopTime: 16, // Pausa aos 12 segundos
+            question: "2. Como a professora (Teacher) respondeu?",
             options: [
                 { text: "I am sad", correct: false },
                 { text: "I'm fine", correct: true },
                 { text: "See ya", correct: false },
                 { text: "Good morning", correct: false }
             ]
+        },
+        {
+            video: "Listening and choose/videoplayback.mp4",
+            stopTime: 28, // Pausa aos 18 segundos
+            question: "3. Qual era o nome da aluna nova?",
+            options: [
+                { text: "Katherine", correct: false },
+                { text: "Susy", correct: false },
+                { text: "Katia", correct: false },
+                { text: "Kate", correct: true }
+            ]
+        },
+        {
+            video: "Listening and choose/videoplayback.mp4",
+            stopTime: 40, // Pausa aos 24 segundos
+            question: "4. Qual seria a pergunta formulada para que Kate pudesse declarar o seu nome?",
+            options: [
+                { text: "Where have you been?", correct: false },
+                { text: "What is your name?", correct: true },
+                { text: "How old are you?", correct: false },
+                { text: "Where are you going?", correct: false }
+            ]
+        },
+        {
+            video: "Listening and choose/videoplayback.mp4",
+            stopTime: 41, // Pausa aos 30 segundos
+            question: "5. Como a conversação terminou?",
+            options: [
+                { text: "I'm great you", correct: false },
+                { text: "Thank you", correct: true },
+                { text: "Hello", correct: false },
+                { text: "Please", correct: false }
+            ]
         }
-        // Adicione mais perguntas aqui se desejar
     ];
 
+    const part2Data = [
+        {
+            video: "Listening and choose/Interpretação greetins.mp4", // Coloque o caminho do novo vídeo aqui
+            stopTime: 15, // Pausa para a 1ª pergunta
+            question: "1. Qual a primeira (Firt) personagem apresentada no vídeo?",
+            options: [
+                { text: "Girl", correct: true },
+                { text: "Boy", correct: false },
+                { text: "Woman", correct: false },
+                { text: "Women", correct: false }
+            ]
+        },
+        {
+            video: "Listening and choose/Interpretação greetins.mp4",
+            stopTime: 33, // Pausa para a 2ª pergunta
+            question: "2. Qual foi a reação do segundo (Second) personagem?",
+            options: [
+                { text: "Good", correct: false },
+                { text: "Great", correct: false },
+                { text: "Happy", correct: true },
+                { text: "Lazy", correct: false }
+            ]
+        },
+        {
+            video: "Listening and choose/Interpretação greetins.mp4",
+            stopTime: 46, // Pausa para a 3ª pergunta
+            question: "3. O que respondeu o terceiro (Third) personagem na primeira pergunta?",
+            options: [
+                { text: "I'm good", correct: false },
+                { text: "I'm god", correct: false },
+                { text: "I'm bad", correct: false },
+                { text: "I'm not good", correct: true }
+            ]
+        },
+        {
+            video: "Listening and choose/Interpretação greetins.mp4",
+            stopTime: 85, // Pausa para a 4ª pergunta (final)
+            question: "4. How is about the Lion?",
+            options: [
+                { text: "He was sad", correct: false },
+                { text: "He was happy", correct: false },
+                { text: "He was boried", correct: false },
+                { text: "He was good", correct: true }
+            ]
+        }
+    ];
+
+    let currentQuizData = part1Data; // Começa com a Parte 1
     let currentVideoQuizIndex = 0;
     let score = 0;
+    let questionShown = false; // Controle para pausar apenas uma vez por pergunta
+    let currentSceneStartTime = 0; // Armazena o tempo de início da cena atual
+
     const videoPlayer = document.getElementById('video-quiz-player');
     const videoSource = document.getElementById('video-quiz-source');
     const questionTitle = document.getElementById('video-quiz-question');
@@ -346,35 +431,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackMsg = document.getElementById('video-quiz-feedback');
     const nextQuestionBtn = document.getElementById('video-quiz-next-btn');
     const scoreDisplay = document.getElementById('video-quiz-score');
+    const videoOverlay = document.getElementById('video-start-overlay');
+    const quizCard = document.querySelector('.quiz-card');
+    const skipToPart2Btn = document.getElementById('skip-to-part2-btn');
 
     function updateScoreDisplay() {
         if (scoreDisplay) {
-            scoreDisplay.textContent = `Acertos: ${score}/${videoQuizData.length}`;
+            scoreDisplay.textContent = `Acertos: ${score}/${part1Data.length + part2Data.length}`;
         }
     }
 
-    function loadVideoQuestion(index) {
-        if (index === 0) score = 0; // Reseta a pontuação ao iniciar
-
-        if (index >= videoQuizData.length) {
-            if (questionTitle) questionTitle.textContent = `Parabéns! Você completou o quiz. Pontuação final: ${score}/${videoQuizData.length}`;
-            if (optionsContainer) optionsContainer.innerHTML = '';
-            if (feedbackMsg) feedbackMsg.textContent = '';
-            if (nextQuestionBtn) nextQuestionBtn.style.display = 'none';
-            if (videoPlayer) videoPlayer.closest('.video-container').style.display = 'none';
-            return;
-        }
-
-        const data = videoQuizData[index];
-        
-        updateScoreDisplay();
-        
-        if (videoSource && videoPlayer) {
-            // Atualiza o vídeo apenas se for diferente para evitar recarregamento desnecessário
-            if (videoSource.getAttribute('src') !== data.video) {
-                videoSource.src = data.video;
-                videoPlayer.load();
-            }
+    function showQuestionUI(data) {
+        // Habilita a interação com o card
+        if (quizCard) {
+            quizCard.style.opacity = '1';
+            quizCard.style.pointerEvents = 'auto';
         }
 
         if (questionTitle) questionTitle.textContent = data.question;
@@ -392,7 +463,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.textContent = opt.text;
                 btn.dataset.correct = opt.correct;
                 
-                // Adiciona evento de clique para cada opção
                 btn.addEventListener('click', () => {
                     const isCorrect = btn.dataset.correct === 'true';
                     const allOptions = optionsContainer.querySelectorAll('.quiz-option');
@@ -407,9 +477,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         nextQuestionBtn.classList.remove('hidden');
                     } else {
                         btn.classList.add('incorrect');
-                        feedbackMsg.textContent = "❌ Tente novamente!";
+                        feedbackMsg.textContent = "❌ Errado! Assista novamente...";
                         feedbackMsg.style.color = "#ef4444";
-                        btn.disabled = true;
+                        
+                        // Diminui a pontuação ao errar (sem deixar ficar negativa)
+                        if (score > 0) score--;
+                        updateScoreDisplay();
+
+                        // Bloqueia todas as opções para o usuário não clicar em mais nada
+                        allOptions.forEach(b => b.disabled = true);
+
+                        // Aguarda 1.5 segundos e reinicia o trecho do vídeo
+                        setTimeout(() => {
+                            if (quizCard) {
+                                quizCard.style.opacity = '0.6';
+                                quizCard.style.pointerEvents = 'none';
+                            }
+                            videoPlayer.currentTime = currentSceneStartTime;
+                            videoPlayer.play();
+                            questionShown = false; // Permite que a pergunta apareça novamente ao final do trecho
+                            if (videoOverlay) videoOverlay.classList.add('hidden');
+                        }, 1500);
                     }
                 });
 
@@ -418,11 +506,152 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function loadVideoQuestion(index) {
+        if (index === 0 && currentQuizData === part1Data) score = 0; // Reseta a pontuação ao iniciar apenas a parte 1
+
+        // Controla a visibilidade do botão de pular (esconde se já estiver na parte 2)
+        if (skipToPart2Btn) {
+            // Mostra durante toda a Parte 1 (enquanto houver perguntas)
+            skipToPart2Btn.style.display = (currentQuizData === part1Data && index < currentQuizData.length) ? 'block' : 'none';
+        }
+
+        if (index >= currentQuizData.length) {
+            // Se acabou a Parte 1, oferece a transição para a Parte 2
+            if (currentQuizData === part1Data) {
+                if (questionTitle) questionTitle.textContent = "Parte 1 concluída! Vamos para a Interpretação?";
+                if (optionsContainer) {
+                    optionsContainer.innerHTML = '';
+                    const nextPartBtn = document.createElement('button');
+                    nextPartBtn.className = 'action-btn';
+                    nextPartBtn.textContent = 'Ir para Interpretação 🎬';
+                    nextPartBtn.style.backgroundColor = '#9C27B0';
+                    nextPartBtn.onclick = () => {
+                        currentQuizData = part2Data;
+                        currentVideoQuizIndex = 0;
+                        loadVideoQuestion(0);
+                    };
+                    optionsContainer.appendChild(nextPartBtn);
+                }
+                if (feedbackMsg) feedbackMsg.textContent = `Pontuação parcial: ${score}`;
+                if (nextQuestionBtn) nextQuestionBtn.classList.add('hidden');
+                if (quizCard) {
+                    quizCard.style.opacity = '1';
+                    quizCard.style.pointerEvents = 'auto';
+                }
+                return;
+            }
+
+            // Se acabou a Parte 2 (Fim total)
+            if (questionTitle) questionTitle.textContent = `Parabéns! Você completou todo o módulo. Pontuação final: ${score}/${part1Data.length + part2Data.length}`;
+            if (optionsContainer) optionsContainer.innerHTML = '';
+            if (feedbackMsg) feedbackMsg.textContent = '';
+            if (nextQuestionBtn) nextQuestionBtn.style.display = 'none';
+            // Garante que o card fique visível no final
+            if (quizCard) {
+                quizCard.style.opacity = '1';
+                quizCard.style.pointerEvents = 'auto';
+            }
+            return;
+        }
+
+        const data = currentQuizData[index];
+        questionShown = false; // Reseta para permitir nova pausa
+        
+        // Define o tempo de início: 0 para a primeira, ou o stopTime da anterior para as próximas
+        if (index === 0) {
+            currentSceneStartTime = 0;
+        } else {
+            currentSceneStartTime = currentQuizData[index - 1].stopTime;
+        }
+        
+        updateScoreDisplay();
+        
+        if (videoSource && videoPlayer) {
+            const currentSrc = videoSource.getAttribute('src');
+            if (currentSrc !== data.video) {
+                videoSource.src = data.video;
+                videoPlayer.load();
+                // Se não for a primeira pergunta, tenta tocar automaticamente
+                if (index > 0) videoPlayer.play().catch(() => {});
+            } else {
+                // Se for o mesmo vídeo, continua tocando
+                videoPlayer.play().catch(() => {});
+            }
+        }
+
+        // Garante que o overlay de Replay suma ao avançar para a próxima pergunta
+        if (videoOverlay) {
+            if (index === 0) {
+                videoOverlay.classList.remove('hidden');
+                const btn = videoOverlay.querySelector('.big-play-btn');
+                if (btn) btn.textContent = '▶';
+            } else {
+                // Se não for a primeira, esconde o overlay para o vídeo tocar
+                videoOverlay.classList.add('hidden');
+            }
+        }
+
+        // Deixa o card "desativado" visualmente enquanto o vídeo toca
+        if (quizCard) {
+            quizCard.style.opacity = '0.6';
+            quizCard.style.pointerEvents = 'none';
+        }
+        if (questionTitle) questionTitle.textContent = `Assista ao vídeo... (Pergunta ${index + 1})`;
+        if (optionsContainer) optionsContainer.innerHTML = '';
+        if (feedbackMsg) feedbackMsg.textContent = '';
+        if (nextQuestionBtn) nextQuestionBtn.classList.add('hidden');
+    }
+
+    // Monitora o tempo do vídeo
+    if (videoPlayer) {
+        videoPlayer.addEventListener('timeupdate', () => {
+            if (currentVideoQuizIndex >= currentQuizData.length) return;
+
+            const data = currentQuizData[currentVideoQuizIndex];
+            
+            // Se atingiu o tempo e a pergunta ainda não foi mostrada
+            if (!questionShown && videoPlayer.currentTime >= data.stopTime) {
+                videoPlayer.pause();
+                questionShown = true;
+                showQuestionUI(data);
+                // Mostra o overlay com ícone de Replay
+                if (videoOverlay) {
+                    videoOverlay.classList.remove('hidden');
+                    const btn = videoOverlay.querySelector('.big-play-btn');
+                    if (btn) btn.textContent = '🔄';
+                }
+            }
+        });
+    }
+
+    // Lógica do Botão de Play Grande (Overlay)
+    if (videoOverlay && videoPlayer) {
+        videoOverlay.addEventListener('click', () => {
+            videoPlayer.currentTime = currentSceneStartTime; // Garante que volta ao início da cena (Replay)
+            videoPlayer.play();
+            questionShown = false; // Permite que pause novamente no final
+            videoOverlay.classList.add('hidden');
+        });
+    }
+
     // Botão Próxima Pergunta
     if (nextQuestionBtn) {
         nextQuestionBtn.addEventListener('click', () => {
             currentVideoQuizIndex++;
             loadVideoQuestion(currentVideoQuizIndex);
+        });
+    }
+
+    // Botão para pular para a Parte 2 (Interpretação)
+    if (skipToPart2Btn) {
+        skipToPart2Btn.addEventListener('click', () => {
+            const confirmSkip = confirm("Tem certeza que deseja pular para a Interpretação? Seu progresso atual na Parte 1 será perdido.");
+            
+            if (confirmSkip) {
+                currentQuizData = part2Data;
+                currentVideoQuizIndex = 0;
+                loadVideoQuestion(0);
+            }
         });
     }
 
