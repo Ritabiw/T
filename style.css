@@ -459,6 +459,7 @@ body.dark-mode .vocab-icon {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap; /* Permite quebrar linha se tiver feedback */
     animation: popIn 0.5s ease backwards;
     cursor: pointer;
     transition: transform 0.2s;
@@ -512,6 +513,49 @@ body.dark-mode .vocab-icon {
     transform: scale(1.1);
 }
 
+/* Botão de Microfone */
+.mic-btn {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    color: #d93025; /* Vermelho Google Mic */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mic-btn:hover {
+    transform: scale(1.1);
+    background-color: #ffebee;
+}
+
+.mic-btn.listening {
+    background-color: #d93025;
+    color: white;
+    animation: pulse-red 1.5s infinite;
+}
+
+.mark-row .mic-btn {
+    margin-left: 10px;
+}
+
+.elena-row .mic-btn {
+    margin-right: 10px;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(217, 48, 37, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(217, 48, 37, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(217, 48, 37, 0); }
+}
+
 /* Botão de Voltar (Seta) */
 .back-arrow {
     background: transparent;
@@ -555,6 +599,14 @@ body.dark-mode .vocab-icon {
 .chat-bubble .text-highlight {
     color: #FFD700 !important; /* Amarelo Ouro */
     text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* Mensagem de Feedback de Voz */
+.voice-feedback {
+    font-size: 0.8em;
+    margin-left: 10px;
+    font-weight: bold;
+    width: 100%; /* Força quebra de linha dentro do flex-wrap */
 }
 
 /* --- Card de Áudio Completo (Let's Talk) --- */

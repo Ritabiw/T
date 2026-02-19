@@ -103,6 +103,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Lógica do botão "To Ask" (Próxima Lição) - Igual ao Vocabulário
+    const toggleToAskBtn = document.getElementById('toggle-to-ask-btn');
+    const toAskContent = document.getElementById('to-ask-content');
+
+    if (toggleToAskBtn && toAskContent) {
+        toggleToAskBtn.addEventListener('click', () => {
+            toAskContent.classList.toggle('hidden');
+            
+            if (toAskContent.classList.contains('hidden')) {
+                toggleToAskBtn.textContent = '📖 Abrir Perguntas';
+                
+                // Reseta a visualização do vocabulário PT ao fechar (Igual à Lição 1)
+                const toAskPtContent = document.getElementById('to-ask-pt-content');
+                const toAskContinueBtn = document.getElementById('to-ask-continue-btn');
+                if (toAskPtContent) toAskPtContent.classList.add('hidden');
+                if (toAskContinueBtn) toAskContinueBtn.style.display = '';
+            } else {
+                toggleToAskBtn.textContent = '📖 Fechar Perguntas';
+                // Animação de entrada
+                const items = toAskContent.querySelectorAll('.audio-item');
+                items.forEach((item, index) => {
+                    item.style.animation = 'none';
+                    item.offsetHeight; /* trigger reflow */
+                    item.style.animation = `popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.05}s backwards`;
+                });
+            }
+        });
+    }
+
     // Lógica de Navegação (Passo 1 <-> Passo 2)
     const nextBtn = document.getElementById('next-btn');
     const prevBtn = document.getElementById('prev-btn');
@@ -112,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stepRead = document.getElementById('step-read');
     const stepListening = document.getElementById('step-listening');
     const stepNextLesson = document.getElementById('step-next-lesson');
+    const stepTalkLesson2 = document.getElementById('step-talk-lesson2');
     const letsTalkBtn = document.getElementById('lets-talk-btn');
     const letsReadBtn = document.getElementById('lets-read-btn');
     const letsListenBtn = document.getElementById('lets-listen-btn');
@@ -120,6 +150,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Elementos do Video Quiz (Definidos aqui para acesso global no script)
     const videoPlayer = document.getElementById('video-quiz-player');
+
+    // Lógica do Atalho para Lição 2 na Introdução
+    const shortcutLesson2Btn = document.getElementById('shortcut-lesson2-btn');
+    if (shortcutLesson2Btn && step2 && stepNextLesson) {
+        shortcutLesson2Btn.addEventListener('click', () => {
+            step2.classList.add('hidden');
+            stepNextLesson.classList.remove('hidden');
+            
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (prevBtn) prevBtn.classList.remove('disabled');
+        });
+    }
+
+    // Lógica do botão Voltar ao Início (na Lição 2)
+    const backToStartBtn = document.getElementById('back-to-start-btn');
+    if (backToStartBtn && step2 && stepNextLesson) {
+        backToStartBtn.addEventListener('click', () => {
+            stepNextLesson.classList.add('hidden');
+            step2.classList.remove('hidden');
+            
+            // Reseta a navegação inferior
+            if (prevBtn) prevBtn.classList.remove('disabled');
+            if (nextBtn) {
+                nextBtn.style.display = 'none';
+            }
+
+            // Aplica estilos visuais da Introdução
+            if (container) container.classList.add('transparent');
+            document.body.classList.add('white-bg');
+            
+            // Rola a página para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     if (nextBtn && step1 && step2) {
         nextBtn.addEventListener('click', () => {
@@ -193,6 +257,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (nextBtn) nextBtn.style.display = 'none';
                 if (container) container.scrollIntoView({ behavior: 'smooth' });
             }
+        });
+    }
+
+    // Lógica do botão Continuar dentro do To Ask (Lição 2)
+    const toAskContinueBtn = document.getElementById('to-ask-continue-btn');
+    if (toAskContinueBtn) {
+        toAskContinueBtn.addEventListener('click', () => {
+            // Revela a seção de Português -> Inglês da Lição 2
+            const toAskPtContent = document.getElementById('to-ask-pt-content');
+            if (toAskPtContent) {
+                toAskPtContent.classList.remove('hidden');
+                toAskContinueBtn.style.display = 'none'; // Oculta o botão
+                
+                // Animação de entrada
+                const items = toAskPtContent.querySelectorAll('.audio-item');
+                items.forEach((item, index) => {
+                    item.style.animation = 'none';
+                    item.offsetHeight; /* trigger reflow */
+                    item.style.animation = `popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.05}s backwards`;
+                });
+                
+                // Scroll suave
+                setTimeout(() => {
+                    toAskPtContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        });
+    }
+
+    // Lógica do botão Continuar (Final do Vocabulário Lição 2) -> Vai para Let's Talk Lesson 2
+    const toAskPtContinueBtn = document.getElementById('to-ask-pt-continue-btn');
+    if (toAskPtContinueBtn) {
+        toAskPtContinueBtn.addEventListener('click', () => {
+            if (stepNextLesson && stepTalkLesson2) {
+                stepNextLesson.classList.add('hidden');
+                stepTalkLesson2.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    }
+
+    // Lógica do botão Finalizar Módulo (no final do Let's Talk Lesson 2)
+    const finishModuleBtn = document.getElementById('finish-module-btn');
+    if (finishModuleBtn) {
+        finishModuleBtn.addEventListener('click', () => {
+            alert("Parabéns! Você concluiu todo o Módulo 1 com sucesso! 🏆");
+        });
+    }
+
+    // Lógica do botão Voltar ao Início (no Let's Talk Lesson 2)
+    const backToStartLesson2Btn = document.getElementById('back-to-start-lesson2-btn');
+    if (backToStartLesson2Btn && step2 && stepTalkLesson2) {
+        backToStartLesson2Btn.addEventListener('click', () => {
+            stepTalkLesson2.classList.add('hidden');
+            step2.classList.remove('hidden');
+            
+            if (prevBtn) prevBtn.classList.remove('disabled');
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (container) container.classList.add('transparent');
+            document.body.classList.add('white-bg');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
     
@@ -799,6 +925,81 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadVideoQuestion(currentVideoQuizIndex); // Carrega a tela final
             }
         });
+    }
+
+    // --- Lógica de Reconhecimento de Voz (Pronúncia) ---
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US'; // Define o idioma para Inglês
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        const micButtons = document.querySelectorAll('.mic-btn');
+
+        micButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Evita clicar no balão
+                
+                // Se já estiver ouvindo, para
+                if (btn.classList.contains('listening')) {
+                    recognition.stop();
+                    return;
+                }
+
+                const targetText = btn.getAttribute('data-text').toLowerCase();
+                const bubble = btn.closest('.chat-row').querySelector('.chat-bubble');
+                
+                // Remove feedback anterior
+                const oldFeedback = bubble.querySelector('.voice-feedback');
+                if (oldFeedback) oldFeedback.remove();
+
+                // Cria elemento de feedback
+                const feedback = document.createElement('div');
+                feedback.classList.add('voice-feedback');
+                feedback.textContent = "Ouvindo... 👂";
+                feedback.style.color = "#666";
+                bubble.appendChild(feedback);
+
+                // Ativa visual do botão
+                btn.classList.add('listening');
+
+                recognition.start();
+
+                recognition.onresult = (event) => {
+                    const spokenText = event.results[0][0].transcript.toLowerCase();
+                    const confidence = event.results[0][0].confidence;
+
+                    // Lógica de comparação simples (remove pontuação para facilitar)
+                    const cleanSpoken = spokenText.replace(/[^a-z0-9 ]/g, '');
+                    const cleanTarget = targetText.replace(/[^a-z0-9 ]/g, '');
+
+                    // Verifica se a frase dita contém a frase alvo ou é muito parecida
+                    if (cleanSpoken.includes(cleanTarget) || cleanTarget.includes(cleanSpoken)) {
+                        feedback.textContent = `✅ Excellent! ("${spokenText}")`;
+                        feedback.style.color = "#10b981"; // Verde
+                    } else {
+                        feedback.textContent = `❌ Tente de novo. Ouvi: "${spokenText}"`;
+                        feedback.style.color = "#ef4444"; // Vermelho
+                    }
+                    
+                    btn.classList.remove('listening');
+                };
+
+                recognition.onerror = (event) => {
+                    feedback.textContent = "Erro no microfone ou permissão negada.";
+                    feedback.style.color = "#ef4444";
+                    btn.classList.remove('listening');
+                };
+
+                recognition.onend = () => {
+                    btn.classList.remove('listening');
+                };
+            });
+        });
+    } else {
+        console.log("Seu navegador não suporta reconhecimento de voz.");
     }
 
     // Inicializa o quiz carregando a primeira pergunta

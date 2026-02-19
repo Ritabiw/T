@@ -57,7 +57,8 @@
                 <h1>Introdução 🤝</h1>
                 <p>Ouça e pratique a pronúncia das saudações mais comuns:</p>
 
-                <button id="toggle-vocab" class="action-btn">📖 Abrir Vocabulário</button>
+                <button id="toggle-vocab" class="action-btn">📖 Lição 1</button>
+                <button id="shortcut-lesson2-btn" class="action-btn" style="background-color: #FF9800;">🚀 Lição 2</button>
 
                 <div id="vocab-content" class="audio-grid hidden">
                     <div class="audio-item"><img src="Imagens de Greetins/HI.jpg" class="vocab-icon"><span>Hi!</span> <button class="play-btn" data-audio="Imagens de Greetins/Greetins audio/Hi.mp3">🔊</button></div>
@@ -334,11 +335,259 @@
 
             <!-- Passo 5: Próxima Lição (Página Solo) -->
             <div id="step-next-lesson" class="step hidden">
-                <h1>Próxima Lição 🚀</h1>
+                <h1>Lição 2 🚀</h1>
                 <p>Parabéns! Você concluiu o Módulo 1 com sucesso.</p>
-                <p>No próximo módulo, aprenderemos sobre:</p>
-                <h3>"Personal Information"</h3>
-                <button class="action-btn" style="margin-top: 20px;">Iniciar Módulo 2</button>
+                <p>In the second Lesson, we will learn about:</p>
+                
+                <h3>To Ask (Perguntas iniciais)</h3>
+                <button id="toggle-to-ask-btn" class="action-btn">📖 Abrir Perguntas</button>
+
+                <div id="to-ask-content" class="audio-grid hidden">
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What's your name.jpg" class="vocab-icon">
+                        <span>What is your name?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What is your name.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Where are you from.jpg" class="vocab-icon">
+                        <span>Where are you from?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Where are you from.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/How old are you.jpg" class="vocab-icon">
+                        <span>How old are you?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/How old are you.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What do you do.jpg" class="vocab-icon">
+                        <span>What do you do?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What do you do.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Where do you live.png" class="vocab-icon">
+                        <span>Where do you live?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Where do you live.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What time is it.jpg" class="vocab-icon">
+                        <span>What time is it?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What time is it.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What is your favorite color.jpg" class="vocab-icon">
+                        <span>What is your favorite color?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What is your favorite color.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/When is your birthday.jpg" class="vocab-icon">
+                        <span>When is your birthday?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/when is your birthday.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Who are you.png" class="vocab-icon">
+                        <span>Who are you?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Who are you.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/How much is it.jpg" class="vocab-icon">
+                        <span>How much is it?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/How much is it.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/How do you spell your name.jpg" class="vocab-icon">
+                        <span>How do you spell your name?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/How do you spell your name.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Do you speak English.jpg" class="vocab-icon">
+                        <span>Do you speak English?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Do you speak English.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Are you ready.jpg" class="vocab-icon">
+                        <span>Are you ready?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Are you ready.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Do you like coffee.jpg" class="vocab-icon">
+                        <span>Do you like coffee?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Do you like coffee.mp3">🔊</button>
+                    </div>
+
+                    <!-- Botão Continuar dentro da Lição 2 -->
+                    <div style="width: 100%; grid-column: 1 / -1; text-align: center; margin-top: 20px;">
+                        <button id="to-ask-continue-btn" class="action-btn">Continuar ➡</button>
+                    </div>
+                </div>
+
+                <!-- Seção Português -> Inglês (Lição 2) -->
+                <div id="to-ask-pt-content" class="audio-grid hidden">
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What's your name.jpg" class="vocab-icon">
+                        <span>Qual é o seu nome?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What is your name.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Where are you from.jpg" class="vocab-icon">
+                        <span>De onde você é?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Where are you from.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/How old are you.jpg" class="vocab-icon">
+                        <span>Quantos anos você tem?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/How old are you.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What do you do.jpg" class="vocab-icon">
+                        <span>O que você faz?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What do you do.mp3">🔊</button>
+                    </div>
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Where do you live.png" class="vocab-icon">
+                        <span>Onde você mora?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Where do you live.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What time is it.jpg" class="vocab-icon">
+                        <span>Que horas são?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What time is it.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/What is your favorite color.jpg" class="vocab-icon">
+                        <span>Qual é a sua cor favorita?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/What is your favorite color.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/When is your birthday.jpg" class="vocab-icon">
+                        <span>Quando é o seu aniversário?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/when is your birthday.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Who are you.png" class="vocab-icon">
+                        <span>Quem é você?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Who are you.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/How much is it.jpg" class="vocab-icon">
+                        <span>Quanto custa?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/How much is it.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/How do you spell your name.jpg" class="vocab-icon">
+                        <span>Como se soletra seu nome?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/How do you spell your name.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Do you speak English.jpg" class="vocab-icon">
+                        <span>Você fala inglês?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Do you speak English.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Are you ready.jpg" class="vocab-icon">
+                        <span>Você está pronto?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Are you ready.mp3">🔊</button>
+                    </div>
+
+                    <div class="audio-item">
+                        <img src="Lição 02/images/Do you like coffee.jpg" class="vocab-icon">
+                        <span>Você gosta de café?</span> 
+                        <button class="play-btn" data-audio="Lição 02/Vocabulário lesson 2/Do you like coffee.mp3">🔊</button>
+                    </div>
+
+                    <div style="width: 100%; grid-column: 1 / -1; text-align: center; margin-top: 20px;">
+                        <button id="to-ask-pt-continue-btn" class="action-btn">Continuar ➡</button>
+                    </div>
+                </div>
+
+                <!-- Botão para voltar ao início do módulo -->
+                <button id="back-to-start-btn" class="action-btn" style="margin-top: 30px; background-color: #757575;">⬅ Voltar para Introdução</button>
+            </div>
+
+            <!-- Passo 6: Let's Talk Lição 2 -->
+            <div id="step-talk-lesson2" class="step hidden">
+                <h1>Let's TALK (Lesson 2) 🗣️</h1>
+                <p>Pratique o diálogo com as perguntas aprendidas:</p>
+                
+                <!-- Card para ouvir a conversa completa -->
+                <div class="full-audio-card">
+                    <button class="play-btn" data-audio="Lição 02/TALK/Audio_Completo.mp3">🔊</button>
+                    <div>
+                        <h3>Ouvir conversa completa</h3>
+                        <p>Escute a narração de todo o diálogo.</p>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <!-- Person A -->
+                    <div class="chat-row mark-row">
+                        <img src="https://placehold.co/50" alt="Person A" class="avatar">
+                        <div class="chat-bubble mark">
+                            <p><strong>Person A:</strong> Hello! What is your name?</p>
+                            <button class="play-mini-btn" data-audio="Lição 02/TALK/Hello_What_is_your_name.mp3">🔊</button>
+                        </div>
+                        <button class="mic-btn" data-text="Hello What is your name">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"/><path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Person B -->
+                    <div class="chat-row elena-row">
+                        <button class="mic-btn" data-text="Hi My name is Sarah">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"/><path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"/></svg>
+                        </button>
+                        <div class="chat-bubble elena">
+                            <p><strong>Person B:</strong> Hi! My name is Sarah.</p>
+                            <button class="play-mini-btn" data-audio="Lição 02/TALK/Hi_My_name_is_Sarah.mp3">🔊</button>
+                        </div>
+                        <img src="https://placehold.co/50" alt="Person B" class="avatar">
+                    </div>
+
+                    <!-- Person A -->
+                    <div class="chat-row mark-row">
+                        <img src="https://placehold.co/50" alt="Person A" class="avatar">
+                        <div class="chat-bubble mark">
+                            <p><strong>Person A:</strong> Nice to meet you, Sarah. Where are you from?</p>
+                            <button class="play-mini-btn" data-audio="Lição 02/TALK/Nice_to_meet_you_Where_from.mp3">🔊</button>
+                        </div>
+                        <button class="mic-btn" data-text="Nice to meet you Sarah Where are you from">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"/><path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Person B -->
+                    <div class="chat-row elena-row">
+                        <button class="mic-btn" data-text="I am from Brazil And you">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"/><path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"/></svg>
+                        </button>
+                        <div class="chat-bubble elena">
+                            <p><strong>Person B:</strong> I am from Brazil. And you?</p>
+                            <button class="play-mini-btn" data-audio="Lição 02/TALK/From_Brazil_And_you.mp3">🔊</button>
+                        </div>
+                        <img src="https://placehold.co/50" alt="Person B" class="avatar">
+                    </div>
+                </div>
+
+                <button id="finish-module-btn" class="action-btn">Concluir Módulo 🏆</button>
+                
+                <!-- Botão para voltar ao início do módulo -->
+                <button id="back-to-start-lesson2-btn" class="action-btn" style="margin-top: 30px; background-color: #757575;">⬅ Voltar para Introdução</button>
             </div>
 
         </header>
