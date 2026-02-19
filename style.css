@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #6C63FF; /* Cor moderna e jovem */
+    --secondary-color: #FF6584;
+    --bg-gradient-1: #e0c3fc;
+    --bg-gradient-2: #8ec5fc;
+    --text-color: #333;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #8ec5fc; /* Fundo único (azul suave) para o modo claro */
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    align-items: center;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 15px 35px var(--shadow-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.3s, color 0.3s;
+}
+
+header {
+    text-align: center;
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: var(--primary-color);
+    margin: 10px 0;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+}
+
+h3 {
+    color: var(--primary-color);
+    margin-top: 25px;
+}
+
+.module-tag {
+    background-color: #FFE600;
+    color: #333;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9em;
+    display: inline-block;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(255, 230, 0, 0.4);
+}
+
+.content-section {
+    margin-bottom: 30px;
+}
+
+.greeting-card {
+    display: flex;
+    align-items: center;
+    background: var(--bg-color);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.greeting-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+    background-color: #ddd; /* Placeholder para imagem */
+    object-fit: cover;
+}
+
+/* Navegação */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    border-top: 2px solid rgba(0,0,0,0.05);
+    padding-top: 20px;
+}
+
+.nav-btn {
+    padding: 10px 25px;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: opacity 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(108, 99, 255, 0.3);
+}
+
+.nav-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(108, 99, 255, 0.4);
+}
+
+.nav-btn.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Classes necessárias para o JavaScript funcionar */
+.hidden {
+    display: none !important;
+}
+
+body.dark-mode {
+    --text-color: #F9FAFB;
+    --card-bg: rgba(31, 41, 55, 0.95);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+/* Estilo do botão de tema */
+#theme-toggle {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Estilo do Vídeo */
+.video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background-color: #000; /* Fundo preto enquanto carrega */
+}
+
+.video-container iframe, .video-container video {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- NOVOS ESTILOS (Vocabulário e Progresso) --- */
+
+/* Barra de Progresso */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    height: 8px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    background-image: linear-gradient(
+        45deg, 
+        rgba(255, 255, 255, 0.15) 25%, 
+        transparent 25%, 
+        transparent 50%, 
+        rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0.15) 75%, 
+        transparent 75%, 
+        transparent
+    );
+    background-size: 1rem 1rem;
+    width: 50%; /* Começa na metade */
+    transition: width 0.3s ease;
+}
+
+/* Botão de Abrir Vocabulário */
+.action-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.02);
+    background-color: #5a52d5;
+}
+
+/* Grid de Áudio */
+.audio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.audio-item {
+    background-color: rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.audio-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    background-color: white;
+}
+
+.play-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: transform 0.2s;
+}
+
+.play-btn:hover {
+    transform: scale(1.2);
+}
+
+.vocab-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+}
+
+/* Ajuste Dark Mode para os novos itens */
+body.dark-mode .audio-item {
+    background-color: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+}
+
+body.dark-mode .audio-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Remove o fundo do container quando estiver no Passo 2 */
+.container.transparent {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    backdrop-filter: none;
+}

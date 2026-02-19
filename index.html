@@ -1,19 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Teste Controle</title>
-</head>
-<body style="font-size:24px; background:#000; color:#0f0; text-align:center;">
-  <h1>Teste de Teclas</h1>
-  <p>Pressione qualquer botão no controle remoto.</p>
-  <div id="key">Nenhuma tecla ainda...</div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 
-  <script>
-    document.addEventListener('keydown', function(event) {
-      document.getElementById('key').innerText = 
-        'KeyCode: ' + event.keyCode + ' | Key: ' + event.key;
-    });
-  </script>
+    <title>Módulo 1: Greetings - Aprenda Inglês</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <header>
+            <div class="module-tag">Módulo 1</div>
+
+            <!-- Passo 1: Greetings -->
+            <div id="step-1" class="step">
+                <h1>Greetings! 👋</h1>
+                <button id="theme-toggle">🌙 Modo Escuro</button>
+
+                <!-- Área do Vídeo -->
+                <div class="video-container">
+                    <video controls>
+                        <source src="Imagens de Greetins/Design sem nome.mp4" type="video/mp4">
+                        Seu navegador não suporta a reprodução de vídeos.
+                    </video>
+                </div>
+
+                <p>Greetings significa saudações em inglês. São palavras e expressões usadas para cumprimentar alguém, iniciar uma conversa ou se despedir.</p>
+                <h3>🎯 Por que aprender greetings é importante? </h3>
+
+                <h3>Primeiro contato</h3>
+                <p>As saudações são a primeira coisa que falamos ao conhecer alguém. Elas causam a primeira impressão.</p>
+
+                <h3>Educação e respeito </h3>   
+                <p> Cumprimentar alguém demonstra educação, respeito e simpatia.</p>
+
+                <h3>Comunicação internacional</h3>
+                <p>O inglês é considerado a língua global. Saber cumprimentar em inglês ajuda em:</p>
+                <p>Viagens ✈️</p>
+                <p>Escola 📚</p>
+                <p>Trabalho 💼</p>
+                <p>Internet 🌎</p>
+
+                <h3>Base para aprender inglês</h3>
+                <p>As saudações são o primeiro passo no aprendizado da língua. A partir delas, aprendemos a:</p>
+                <p>Perguntar “How are you?” (Como você está?)</p>
+                <p>Responder “I’m fine” (Estou bem)</p>
+                <p>Iniciar diálogos simples</p>
+            </div>
+
+            <!-- Passo 2: Introductions (Novo Conteúdo) -->
+            <div id="step-2" class="step hidden">
+                <h1>Introdução 🤝</h1>
+                <p>Ouça e pratique a pronúncia das saudações mais comuns:</p>
+
+                <button id="toggle-vocab" class="action-btn">📖 Abrir Vocabulário</button>
+
+                <div id="vocab-content" class="audio-grid hidden">
+                    <div class="audio-item"><img src="Imagens de Greetins/HI.jpg" class="vocab-icon"><span>Hi!</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="Imagens de Greetins/" class="vocab-icon"><span>Hello!</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="Imagens de Greetins/DIA.jpg" class="vocab-icon"><span>Good morning</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="Imagens de Greetins/TARDE.jpg" class="vocab-icon"><span>Good afternoon</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="Imagens de Greetins/NOITE.jpg" class="vocab-icon"><span>Good evening</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="Imagens de Greetins/EAÍ.png" class="vocab-icon"><span>Hey there!</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="Imagens de Greetins/OQUE É.jpg" class="vocab-icon"><span>What's up?</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="Imagens de Greetins/ChatGPT Image 19 de fev. de 2026, 00_31_22.png" class="vocab-icon"><span>How's it going?</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="Imagens de Greetins/ChatGPT Image 19 de fev. de 2026, 00_33_58.png" class="vocab-icon"><span>How are you?</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="Imagens de Greetins/ChatGPT Image 19 de fev. de 2026, 00_40_09.png" class="vocab-icon"><span>I'm fine, thanks</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="Imagens de Greetins/BOM CONHECER VC.jpg" class="vocab-icon"><span>Nice to meet you</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Pleased to meet you</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Long time no see</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Yo!</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>How do you do?</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Goodbye</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Bye bye</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>See you later</span> <button class="play-btn">🔊</button></div>
+                    
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Take care</span> <button class="play-btn">🔊</button></div>
+                    <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Have a nice day</span> <button class="play-btn">🔊</button></div>
+                </div>
+            </div>
+
+        </header>
+        <div class="navigation">
+            <button id="prev-btn" class="nav-btn disabled">⬅ Anterior</button>
+            <button id="next-btn" class="nav-btn">Próximo ➡</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
