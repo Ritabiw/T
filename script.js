@@ -81,6 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (vocabContent.classList.contains('hidden')) {
                 toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
                 if (letsTalkBtn) letsTalkBtn.classList.remove('hidden');
+                
+                // Reseta a visualização do vocabulário PT ao fechar
+                const vocabPtContent = document.getElementById('vocab-pt-content');
+                const vocabContinueBtn = document.getElementById('vocab-continue-btn');
+                if (vocabPtContent) vocabPtContent.classList.add('hidden');
+                if (vocabContinueBtn) vocabContinueBtn.style.display = '';
             } else {
                 toggleVocabBtn.textContent = '📖 Fechar Vocabulário';
                 if (letsTalkBtn) letsTalkBtn.classList.add('hidden');
@@ -153,12 +159,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const vocabContinueBtn = document.getElementById('vocab-continue-btn');
     if (vocabContinueBtn) {
         vocabContinueBtn.addEventListener('click', () => {
+            // Revela a seção de Português -> Inglês
+            const vocabPtContent = document.getElementById('vocab-pt-content');
+            if (vocabPtContent) {
+                vocabPtContent.classList.remove('hidden');
+                vocabContinueBtn.style.display = 'none'; // Oculta o botão para dar fluidez
+                
+                // Animação de entrada
+                const items = vocabPtContent.querySelectorAll('.audio-item');
+                items.forEach((item, index) => {
+                    item.style.animationDelay = `${index * 0.05}s`;
+                    item.style.animationName = 'none';
+                    item.offsetHeight; 
+                    item.style.animationName = 'popIn';
+                });
+                
+                vocabPtContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    }
+
+    // Lógica do botão Continuar dentro do Vocabulário PT
+    const vocabPtContinueBtn = document.getElementById('vocab-pt-continue-btn');
+    if (vocabPtContinueBtn) {
+        vocabPtContinueBtn.addEventListener('click', () => {
             // Navega para o Let's Talk (Passo 3)
             if (step2 && stepTalk) {
                 step2.classList.add('hidden');
                 stepTalk.classList.remove('hidden');
                 if (prevBtn) prevBtn.classList.remove('disabled');
-                if (nextBtn) nextBtn.style.display = 'none'; // Oculta o botão Próximo do rodapé
+                if (nextBtn) nextBtn.style.display = 'none';
                 if (container) container.scrollIntoView({ behavior: 'smooth' });
             }
         });
@@ -315,6 +345,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (toggleVocabBtn) {
                         toggleVocabBtn.textContent = '📖 Abrir Vocabulário';
                     }
+
+                    // Reseta a visualização do vocabulário PT ao fechar pelo botão Voltar
+                    const vocabPtContent = document.getElementById('vocab-pt-content');
+                    const vocabContinueBtn = document.getElementById('vocab-continue-btn');
+                    if (vocabPtContent) vocabPtContent.classList.add('hidden');
+                    if (vocabContinueBtn) vocabContinueBtn.style.display = '';
+
                     return;
                 }
 
