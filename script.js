@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stepTalk = document.getElementById('step-talk');
     const stepRead = document.getElementById('step-read');
     const stepListening = document.getElementById('step-listening');
+    const stepNextLesson = document.getElementById('step-next-lesson');
     const letsTalkBtn = document.getElementById('lets-talk-btn');
     const letsReadBtn = document.getElementById('lets-read-btn');
     const letsListenBtn = document.getElementById('lets-listen-btn');
@@ -126,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (container) container.classList.add('transparent');
                 document.body.classList.add('white-bg');
+                if (nextBtn) nextBtn.style.display = 'none'; // Oculta o botão Próximo ao entrar na Introdução
                 return;
             }
 
@@ -143,6 +145,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Esconde o botão Próximo no último passo
                 nextBtn.style.display = 'none';
+            }
+        });
+    }
+
+    // Lógica do botão Continuar dentro do Vocabulário
+    const vocabContinueBtn = document.getElementById('vocab-continue-btn');
+    if (vocabContinueBtn) {
+        vocabContinueBtn.addEventListener('click', () => {
+            // Navega para o Let's Talk (Passo 3)
+            if (step2 && stepTalk) {
+                step2.classList.add('hidden');
+                stepTalk.classList.remove('hidden');
+                if (prevBtn) prevBtn.classList.remove('disabled');
+                if (nextBtn) nextBtn.style.display = 'none'; // Oculta o botão Próximo do rodapé
+                if (container) container.scrollIntoView({ behavior: 'smooth' });
             }
         });
     }
@@ -199,6 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Lógica do botão Video Quiz (Let's Listen) no final do Let's Talk
+    if (letsListenBtn && stepListening && stepTalk) {
+        letsListenBtn.addEventListener('click', () => {
+            stepTalk.classList.add('hidden');
+            stepListening.classList.remove('hidden');
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (container) container.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
     // Lógica do botão Video Quiz na Introdução
     if (letsListenIntroBtn && stepListening) {
         letsListenIntroBtn.addEventListener('click', () => {
@@ -234,6 +261,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentAudio = null;
             }
 
+            // Se estiver na Próxima Lição (Passo 5), volta para o Listening (Passo 4)
+            if (stepNextLesson && !stepNextLesson.classList.contains('hidden')) {
+                stepNextLesson.classList.add('hidden');
+                stepListening.classList.remove('hidden');
+                if (nextBtn) nextBtn.style.display = 'none';
+                return;
+            }
+
             // Se estiver no Step Listening, volta para o Step Talk
             if (stepListening && !stepListening.classList.contains('hidden')) {
                 // Reseta o estado do Quiz (Vídeo, Pontuação, Perguntas)
@@ -250,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 stepListening.classList.add('hidden');
                 stepTalk.classList.remove('hidden');
-                if (nextBtn) nextBtn.style.display = 'inline-block';
+                if (nextBtn) nextBtn.style.display = 'none';
                 return;
             }
 
@@ -258,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stepRead && !stepRead.classList.contains('hidden')) {
                 stepRead.classList.add('hidden');
                 stepTalk.classList.remove('hidden');
-                if (nextBtn) nextBtn.style.display = 'inline-block';
+                if (nextBtn) nextBtn.style.display = 'none';
                 return;
             }
 
@@ -266,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stepTalk && !stepTalk.classList.contains('hidden')) {
                 stepTalk.classList.add('hidden');
                 step2.classList.remove('hidden');
-                if (nextBtn) nextBtn.style.display = 'inline-block'; // Mostra o botão Próximo de volta
+                if (nextBtn) nextBtn.style.display = 'none'; // Mantém oculto pois a navegação é interna
                 return;
             }
 
@@ -287,7 +322,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 step1.classList.remove('hidden');
                 
                 prevBtn.classList.add('disabled');
-                if (nextBtn) nextBtn.classList.remove('disabled');
+                if (nextBtn) {
+                    nextBtn.classList.remove('disabled');
+                    nextBtn.style.display = 'inline-block'; // Garante que o botão apareça ao voltar para o Passo 1
+                }
     
                 if (container) container.classList.remove('transparent');
                 document.body.classList.remove('white-bg');
@@ -305,8 +343,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const audioPath = btn.getAttribute('data-audio');
             // Encontra o container pai (card ou balão de chat) para colocar a barra
-            const container = btn.closest('.audio-item') || btn.closest('.chat-bubble') || btn.closest('.reading-card') || btn.closest('.quiz-card');
-            playAudioWithProgress(audioPath, container, 0.5); // Velocidade lenta ao clicar no botão
+            const container = btn.closest('.audio-item') || btn.closest('.chat-bubble') || btn.closest('.reading-card') || btn.closest('.quiz-card') || btn.closest('.full-audio-card');
+            
+            // Define a velocidade: lenta (0.5) para botões individuais, normal (1) para a conversa completa
+            let speed = 0.5;
+            if (btn.closest('.full-audio-card')) {
+                speed = 1;
+            }
+            
+            playAudioWithProgress(audioPath, container, speed);
         });
     });
 
@@ -458,6 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoOverlay = document.getElementById('video-start-overlay');
     const quizCard = document.querySelector('.quiz-card');
     const skipToPart2Btn = document.getElementById('skip-to-part2-btn');
+    const skipInterpretationBtn = document.getElementById('skip-interpretation-btn');
 
     function updateScoreDisplay() {
         if (scoreDisplay) {
@@ -539,6 +585,12 @@ document.addEventListener('DOMContentLoaded', () => {
             skipToPart2Btn.style.display = (currentQuizData === part1Data && index < currentQuizData.length) ? 'block' : 'none';
         }
 
+        // Controla a visibilidade do botão de pular Interpretação (Parte 2)
+        if (skipInterpretationBtn) {
+            // Mostra durante a Parte 2
+            skipInterpretationBtn.style.display = (currentQuizData === part2Data && index < currentQuizData.length) ? 'block' : 'none';
+        }
+
         if (index >= currentQuizData.length) {
             // Se acabou a Parte 1, oferece a transição para a Parte 2
             if (currentQuizData === part1Data) {
@@ -567,7 +619,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Se acabou a Parte 2 (Fim total)
             if (questionTitle) questionTitle.textContent = `Parabéns! Você completou todo o módulo. Pontuação final: ${score}/${part1Data.length + part2Data.length}`;
-            if (optionsContainer) optionsContainer.innerHTML = '';
+            if (optionsContainer) {
+                optionsContainer.innerHTML = '';
+                
+                // Cria o botão para ir para a Próxima Lição
+                const nextLessonBtn = document.createElement('button');
+                nextLessonBtn.className = 'action-btn';
+                nextLessonBtn.textContent = 'Próxima Lição ➡';
+                nextLessonBtn.style.marginTop = '20px';
+                nextLessonBtn.onclick = () => {
+                    stepListening.classList.add('hidden');
+                    stepNextLesson.classList.remove('hidden');
+                };
+                optionsContainer.appendChild(nextLessonBtn);
+            }
             if (feedbackMsg) feedbackMsg.textContent = '';
             if (nextQuestionBtn) nextQuestionBtn.style.display = 'none';
             // Garante que o card fique visível no final
@@ -681,6 +746,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentQuizData = part2Data;
                 currentVideoQuizIndex = 0;
                 loadVideoQuestion(0);
+            }
+        });
+    }
+
+    // Botão para pular a Interpretação (Parte 2) e finalizar
+    if (skipInterpretationBtn) {
+        skipInterpretationBtn.addEventListener('click', () => {
+            const confirmSkip = confirm("Tem certeza que deseja pular a Interpretação? O quiz será finalizado.");
+            
+            if (confirmSkip) {
+                currentVideoQuizIndex = currentQuizData.length; // Força o índice para o final
+                loadVideoQuestion(currentVideoQuizIndex); // Carrega a tela final
             }
         });
     }

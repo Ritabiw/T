@@ -557,6 +557,41 @@ body.dark-mode .vocab-icon {
     text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
 }
 
+/* --- Card de Áudio Completo (Let's Talk) --- */
+.full-audio-card {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-left: 5px solid var(--primary-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.full-audio-card h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+}
+
+.full-audio-card p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+body.dark-mode .full-audio-card {
+    background-color: #2d3748;
+    color: #e2e8f0;
+}
+
+body.dark-mode .full-audio-card p {
+    color: #cbd5e0;
+}
+
 /* --- Estilos do Let's Read --- */
 .reading-card {
     background: #fff;

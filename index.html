@@ -92,16 +92,28 @@
                     
                     <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Take care</span> <button class="play-btn" data-audio="Imagens de Greetins/Greetins audio/Take Care.mp3">🔊</button></div>
                     <div class="audio-item"><img src="https://placehold.co/80" class="vocab-icon"><span>Have a nice day</span> <button class="play-btn" data-audio="Imagens de Greetins/Greetins audio/Have a Nice day.mp3">🔊</button></div>
+                    
+                    <!-- Botão Continuar dentro do Vocabulário -->
+                    <div style="width: 100%; grid-column: 1 / -1; text-align: center; margin-top: 20px;">
+                        <button id="vocab-continue-btn" class="action-btn">Continuar ➡</button>
+                    </div>
                 </div>
-
-                <button id="lets-talk-btn" class="action-btn">🗣️ Let's talk</button>
-                <button id="lets-listen-intro-btn" class="action-btn" style="margin-top: 10px; background-color: #9C27B0;">📺 Video Quiz</button>
             </div>
 
             <!-- Passo 3: Let's Talk (Conversação) -->
             <div id="step-talk" class="step hidden">
-                <h1>Let's Talk! 🗣️</h1>
-                <p>Pratique com o diálogo entre Mark e Elena:</p>
+                <h1>Let's TALK 🗣️</h1>
+                <p>Pratique com o diálogo entre:</p>
+                <p>Mark e Elena</p>
+                
+                <!-- Card para ouvir a conversa completa -->
+                <div class="full-audio-card">
+                    <button class="play-btn" data-audio="TALK/Áudio completo.mp3">🔊</button>
+                    <div>
+                        <h3>Ouvir conversa completa</h3>
+                        <p>Escute a narração de todo o diálogo.</p>
+                    </div>
+                </div>
 
                 <div class="chat-container">
                     <!-- Mark -->
@@ -247,7 +259,7 @@
                     </div>
                 </div>
 
-                <button id="lets-listen-btn" class="action-btn">📺 Video Quiz</button>
+                <button id="lets-listen-btn" class="action-btn">Continuar ➡</button>
             </div>
 
             <!-- Passo 4: Listening and Choose (Vídeo Quiz) -->
@@ -271,6 +283,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <div id="video-quiz-score" class="quiz-score" style="margin-bottom: 0;">Acertos: 0/0</div>
                         <button id="skip-to-part2-btn" style="background: none; border: none; color: #6C63FF; cursor: pointer; text-decoration: underline; font-size: 0.85em; padding: 0;">Pular para Interpretação ⏩</button>
+                        <button id="skip-interpretation-btn" style="background: none; border: none; color: #6C63FF; cursor: pointer; text-decoration: underline; font-size: 0.85em; padding: 0; display: none;">Pular Interpretação ⏩</button>
                     </div>
                     <h3 id="video-quiz-question">Carregando pergunta...</h3>
                     <div id="video-quiz-options" class="quiz-options-grid">
@@ -279,6 +292,15 @@
                     <p id="video-quiz-feedback" class="quiz-feedback"></p>
                     <button id="video-quiz-next-btn" class="action-btn hidden" style="margin-top: 15px;">Próxima Pergunta ➡</button>
                 </div>
+            </div>
+
+            <!-- Passo 5: Próxima Lição (Página Solo) -->
+            <div id="step-next-lesson" class="step hidden">
+                <h1>Próxima Lição 🚀</h1>
+                <p>Parabéns! Você concluiu o Módulo 1 com sucesso.</p>
+                <p>No próximo módulo, aprenderemos sobre:</p>
+                <h3>"Personal Information"</h3>
+                <button class="action-btn" style="margin-top: 20px;">Iniciar Módulo 2</button>
             </div>
 
         </header>
