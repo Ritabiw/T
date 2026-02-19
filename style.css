@@ -424,6 +424,8 @@ body.dark-mode .vocab-icon {
     align-items: center;
     gap: 10px;
     animation: popIn 0.5s ease backwards;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 .chat-bubble p {
@@ -431,6 +433,10 @@ body.dark-mode .vocab-icon {
     font-size: 0.95em;
     text-align: left;
     line-height: 1.4;
+}
+
+.chat-bubble:hover {
+    transform: scale(1.02);
 }
 
 .mark {
@@ -488,4 +494,157 @@ body.dark-mode .vocab-icon {
 
 .back-arrow:hover {
     transform: translateX(-5px);
+}
+
+/* Barra de Progresso do Áudio */
+.audio-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background-color: var(--secondary-color);
+    width: 0%;
+    transition: width 0.1s linear;
+    border-radius: 0 0 15px 15px; /* Arredonda apenas em baixo para combinar com o card */
+}
+
+/* Efeito Karaokê (Destaque de Texto) */
+.text-highlight {
+    color: var(--primary-color) !important;
+    transition: color 0.3s ease;
+    text-shadow: 0 0 1px currentColor; /* Leve negrito visual */
+}
+
+/* Ajuste para os balões de fala (fundo escuro) para garantir contraste */
+.chat-bubble .text-highlight {
+    color: #FFD700 !important; /* Amarelo Ouro */
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* --- Estilos do Let's Read --- */
+.reading-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    line-height: 1.8;
+    text-align: left;
+    margin-top: 20px;
+    position: relative;
+    border-left: 5px solid var(--primary-color);
+}
+
+.reading-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.reading-controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* --- Listening and Choose Section --- */
+.listening-section {
+    margin-top: 40px;
+    border-top: 2px dashed rgba(0,0,0,0.1);
+    padding-top: 20px;
+    text-align: center;
+}
+
+.quiz-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-width: 500px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.quiz-audio-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.large-play {
+    width: 70px;
+    height: 70px;
+    font-size: 1.5em;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.quiz-option {
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: all 0.2s;
+}
+
+.quiz-option:hover:not(:disabled) {
+    border-color: var(--primary-color);
+    background: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+.quiz-option.correct {
+    background-color: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+.quiz-option.incorrect {
+    background-color: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+}
+
+.quiz-feedback {
+    font-weight: bold;
+    min-height: 24px;
+    margin: 0;
+}
+
+/* Dark Mode para o Quiz */
+body.dark-mode .quiz-card {
+    background-color: #2d3748;
+}
+
+body.dark-mode .quiz-option {
+    background-color: #1a202c;
+    border-color: #4a5568;
+    color: #e2e8f0;
+}
+
+body.dark-mode .quiz-option:hover:not(:disabled) {
+    background-color: #2d3748;
+}
+
+/* Grid para 4 opções de resposta */
+.quiz-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.quiz-score {
+    text-align: right;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.1em;
 }
