@@ -94,11 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Adiciona delay escalonado para animação de entrada
                 const items = vocabContent.querySelectorAll('.audio-item');
                 items.forEach((item, index) => {
-                    item.style.animationDelay = `${index * 0.05}s`;
-                    // Reinicia a animação removendo e readicionando a propriedade
-                    item.style.animationName = 'none';
+                    // Reinicia a animação de forma robusta para mobile
+                    item.style.animation = 'none';
                     item.offsetHeight; /* trigger reflow */
-                    item.style.animationName = 'popIn';
+                    item.style.animation = `popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.05}s backwards`;
                 });
             }
         });
@@ -168,13 +167,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Animação de entrada
                 const items = vocabPtContent.querySelectorAll('.audio-item');
                 items.forEach((item, index) => {
-                    item.style.animationDelay = `${index * 0.05}s`;
-                    item.style.animationName = 'none';
-                    item.offsetHeight; 
-                    item.style.animationName = 'popIn';
+                    // Reinicia a animação de forma robusta para mobile
+                    item.style.animation = 'none';
+                    item.offsetHeight; /* trigger reflow */
+                    item.style.animation = `popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.05}s backwards`;
                 });
                 
-                vocabPtContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Pequeno delay para garantir que o layout atualizou antes de rolar (fix para mobile)
+                setTimeout(() => {
+                    vocabPtContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
             }
         });
     }
