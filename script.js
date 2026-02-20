@@ -56,14 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Lógica do Modo Escuro
-    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleBtn = document.getElementById('theme');
     
     if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
+        themeToggleBtn.addEventListener('change', () => {
             document.body.classList.toggle('dark-mode');
-            
-            // Alterna o texto do botão entre Lua e Sol
-            themeToggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️ Modo Claro' : '🌙 Modo Escuro';
         });
     }
 
@@ -160,28 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (nextBtn) nextBtn.style.display = 'none';
             if (prevBtn) prevBtn.classList.remove('disabled');
-        });
-    }
-
-    // Lógica do botão Voltar ao Início (na Lição 2)
-    const backToStartBtn = document.getElementById('back-to-start-btn');
-    if (backToStartBtn && step2 && stepNextLesson) {
-        backToStartBtn.addEventListener('click', () => {
-            stepNextLesson.classList.add('hidden');
-            step2.classList.remove('hidden');
-            
-            // Reseta a navegação inferior
-            if (prevBtn) prevBtn.classList.remove('disabled');
-            if (nextBtn) {
-                nextBtn.style.display = 'none';
-            }
-
-            // Aplica estilos visuais da Introdução
-            if (container) container.classList.add('transparent');
-            document.body.classList.add('white-bg');
-            
-            // Rola a página para o topo
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
@@ -306,22 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Lógica do botão Voltar ao Início (no Let's Talk Lesson 2)
-    const backToStartLesson2Btn = document.getElementById('back-to-start-lesson2-btn');
-    if (backToStartLesson2Btn && step2 && stepTalkLesson2) {
-        backToStartLesson2Btn.addEventListener('click', () => {
-            stepTalkLesson2.classList.add('hidden');
-            step2.classList.remove('hidden');
-            
-            if (prevBtn) prevBtn.classList.remove('disabled');
-            if (nextBtn) nextBtn.style.display = 'none';
-            if (container) container.classList.add('transparent');
-            document.body.classList.add('white-bg');
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-    
     // Lógica para destacar o item de vocabulário clicado (Borda Verde)
     const audioItems = document.querySelectorAll('.audio-item');
     audioItems.forEach(item => {
@@ -381,6 +340,13 @@ document.addEventListener('DOMContentLoaded', () => {
             stepListening.classList.remove('hidden');
             if (nextBtn) nextBtn.style.display = 'none';
             if (container) container.scrollIntoView({ behavior: 'smooth' });
+            
+            // Autoplay do Vídeo Quiz ao entrar na seção
+            if (videoPlayer) {
+                videoPlayer.currentTime = 0;
+                videoPlayer.play().catch(e => console.log("Autoplay bloqueado pelo navegador", e));
+                if (videoOverlay) videoOverlay.classList.add('hidden');
+            }
         });
     }
 
@@ -829,24 +795,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (index > 0) videoPlayer.play().catch(() => {});
             } else {
                 // Se for o mesmo vídeo
-                if (index > 0) {
-                    videoPlayer.play().catch(() => {});
+                
+                // Verifica se a seção está visível para decidir se toca automático
+                const stepListening = document.getElementById('step-listening');
+                if (stepListening && !stepListening.classList.contains('hidden')) {
+                     videoPlayer.play().catch(() => {});
                 } else {
-                    // Se for a primeira (reset), garante que para
+                    // Se estiver oculto (carregamento inicial), mantém pausado
                     videoPlayer.pause();
                     videoPlayer.currentTime = 0;
                 }
             }
         }
 
-        // Garante que o overlay de Replay suma ao avançar para a próxima pergunta
+        // Controle do Overlay:
+        // Se for a primeira pergunta (index 0), mostra o overlay para o usuário dar play inicial
+        // Se for uma pergunta subsequente (index > 0), esconde o overlay
         if (videoOverlay) {
             if (index === 0) {
                 videoOverlay.classList.remove('hidden');
                 const btn = videoOverlay.querySelector('.big-play-btn');
                 if (btn) btn.textContent = '▶';
             } else {
-                // Se não for a primeira, esconde o overlay para o vídeo tocar
                 videoOverlay.classList.add('hidden');
             }
         }
