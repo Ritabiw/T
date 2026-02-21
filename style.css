@@ -941,6 +941,11 @@ body.dark-mode .back-arrow {
     overflow: hidden;
 }
 
+.full-audio-card .play-btn {
+    position: static;
+    flex-shrink: 0;
+}
+
 .full-audio-card h3 {
     margin: 0 0 5px 0;
     font-size: 1.1em;
